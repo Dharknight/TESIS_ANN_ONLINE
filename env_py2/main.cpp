@@ -32,14 +32,14 @@ int main() {
         dup2(from_child_pipe[1], STDOUT_FILENO);  /* Redirige la salida estándar al descriptor de escritura del pipe de salida */
         close(from_child_pipe[1]);
 
-        execlp("/home/abel/env_py3/bin/python3", "python3", "/home/abel/env_py3/nn_script.py", (char *) NULL); // Cambia las rutas a las correctas
+        execlp("/home/abel/env_py2/env_py3/bin/python3", "python3", "/home/abel/env_py2/env_py3/nn_script.py", (char *) NULL); // Cambia las rutas a las correctas
         perror("execlp");
         _exit(EXIT_FAILURE);
     } else {            /* Proceso padre */
         close(to_child_pipe[0]);          /* Cierra el descriptor de lectura del pipe de entrada */
         close(from_child_pipe[1]);        /* Cierra el descriptor de escritura del pipe de salida */
         
-        string message = "DESDE C++ BROO";
+        string message = "HOLA PYTHON, DESDE C++";
         write(to_child_pipe[1], message.c_str(), message.length());
         close(to_child_pipe[1]);          /* Cierra el descriptor de escritura; envía EOF al hijo */
 
@@ -47,7 +47,7 @@ int main() {
         
         read(from_child_pipe[0], buf, sizeof(buf) - 1);  /* Leer la respuesta del hijo */
         buf[sizeof(buf) - 1] = '\0';  /* Asegura que la cadena esté terminada en nulo */
-        cout << "DESDE PYTHOOOON BROOOOO: " << buf << endl;
+        cout << "Recibo en C++, recibiste: " << buf << endl;
         close(from_child_pipe[0]);
     }
 
