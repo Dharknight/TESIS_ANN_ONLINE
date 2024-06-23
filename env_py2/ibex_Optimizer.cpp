@@ -423,7 +423,7 @@ Optimizer::Status Optimizer::optimize() {
 
     update_uplo();
 
-    string original_problem_file = "benchs/optim/medium/ex8_5_2_1.bch"; // Definir la ruta al archivo original
+    string original_problem_file = "benchs/optim/easy/ex3_1_1.bch"; // Definir la ruta al archivo original
     string original_bch_filename = "original_problem.bch"; // Nombre temporal para la copia del archivo original
     string updated_bch_filename = "updated_problem.bch"; // Nombre temporal para el archivo actualizado
     string script_command = "python3 /home/abel/TESIS_ANN_ONLINE/env_py3/main.py " + updated_bch_filename + " --random-seed=3 --timeout=1200";
@@ -499,7 +499,7 @@ Optimizer::Status Optimizer::optimize() {
 				dup2(pipefd[1], STDOUT_FILENO); // Redirige stdout al pipe
 				close(pipefd[1]); // Cierra el descriptor de archivo duplicado
 
-                execlp("python3", "python3", "/home/abel/Documents/ANN-HH-NCOP-Solver/main.py", updated_bch_filename.c_str(), "--random-seed=3", "--timeout=1200", (char *) NULL);
+                execlp("python3", "python3", "/home/abel/TESIS_ANN_ONLINE/env_py3/main.py", updated_bch_filename.c_str(), "--random-seed=3", "--timeout=1200", (char *) NULL);
                 // Si execlp falla
                 perror("execlp");
                 _exit(EXIT_FAILURE);
