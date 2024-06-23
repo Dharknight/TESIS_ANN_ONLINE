@@ -14,6 +14,9 @@
 #include "ibex_BxpOptimData.h"
 #include "ibex_CovOptimData.h"
 
+#include "ibex_OptimLargestFirst.h"
+#include "ibex_RoundRobin.h"
+
 #include <float.h>
 #include <stdlib.h>
 #include <iomanip>
@@ -437,7 +440,10 @@ Optimizer::Status Optimizer::optimize() {
 
     try {
 		string bisector;
-		
+		double prec=1e-9;
+		OptimLargestFirst bso(goal_var,true,prec,0.5);
+		RoundRobin bsr(prec,0.5);
+
         while (!buffer.empty()) {
             loup_changed = false;
 			Cell *c = buffer.top();
@@ -542,20 +548,37 @@ Optimizer::Status Optimizer::optimize() {
             try {
 				if (bisector == "LSmear") {
 					cout<<"C++: LSmear"<<endl;
+					pair<Cell*, Cell*> new_cells = bsc.bisect(*c);
+					buffer.pop();
+					delete c; // deletes the cell.
+
+					nb_cells += 2; // counting the cells handled ( in previous versions nb_cells was the number of cells put into the buffer3 after being handled)
+
+					handle_cell(*new_cells.first);
+					handle_cell(*new_cells.second);
 				} else if (bisector == "RoundRobin") {
 					cout<<"C++: RoundRobin"<<endl;
+					pair<Cell*, Cell*> new_cells = bsr.bisect(*c);
+					buffer.pop();
+					delete c; // deletes the cell.
+
+					nb_cells += 2; // counting the cells handled ( in previous versions nb_cells was the number of cells put into the buffer3 after being handled)
+
+					handle_cell(*new_cells.first);
+					handle_cell(*new_cells.second);
 				} else if (bisector == "LargestFirst") {
 					cout<<"C++: LargestFirst"<<endl;
+					pair<Cell*, Cell*> new_cells = bso.bisect(*c);
+					buffer.pop();
+					delete c; // deletes the cell.
+
+					nb_cells += 2; // counting the cells handled ( in previous versions nb_cells was the number of cells put into the buffer3 after being handled)
+
+					handle_cell(*new_cells.first);
+					handle_cell(*new_cells.second);
 				}
 
-                pair<Cell*, Cell*> new_cells = bsc.bisect(*c);
-				buffer.pop();
-                delete c; // Elimina la celda
-
-                nb_cells += 2; // Contar las celdas manejadas
-
-                handle_cell(*new_cells.first);
-                handle_cell(*new_cells.second);
+			////////////////////////////////////////////////////
 
                 if (uplo_of_epsboxes == NEG_INFINITY) {
                     break;
