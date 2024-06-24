@@ -7,6 +7,10 @@ Despues de creado el entorno virtual env_py2 siga las instrucciones de la docume
 Los archivos llamados Ibex_Optimizer.cpp y Ibex_Optimizer.h estan modificados para este proyecto. Debe reemplazarlos por los originales de la libreria Ibex-lib para probarlos.
 
 En entorno env_py3 esta el script de python, este llamado main.py es llamado desde Ibex_Optimizer.cpp para su uso.
+!pip install tensorflow==2.12.1
+!pip install keras==2.12
+!pip install pandas
+
 Script manda su respuesta a Ibex_Optimizer.cpp y este sigue con su funcionamiento.
 
 Comando para ejecutar problema:
