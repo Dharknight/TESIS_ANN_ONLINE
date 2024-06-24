@@ -37,7 +37,7 @@ output = subprocess.check_output(query,shell=True,)
 
 header = "Var,Res,JG1,JG2,JG3,JG4,JG5,JG6,JG7,JG8,JG9,JG10,JG11,JG12,JG13,JG14,JG15,JG16,JG17,JG18,JG19,JG20,JG21,JG22,JG23,JG24,JG25,JG26,JG27,JG28,JG29,JG30,JG31,JG32,JG33,JG34,JG35,JG36,JG37,JG38\n"
 
-file = open("temp.txt","r")
+file = open("/home/abel/TESIS_ANN_ONLINE/env_py2/ibex-lib/temp.txt","r")
 Lines = file.readlines()
 file.close()
 
@@ -46,7 +46,7 @@ data = data.replace(" ; ", ",")
 data = data.strip("((")
 data = data.strip("))")
 
-file = open("temp.csv","w")
+file = open("/home/abel/TESIS_ANN_ONLINE/env_py3/temp.csv","w")
 file.write(header)
 file.write(data)
 file.close()
@@ -59,7 +59,7 @@ file.close()
 
 model = load_model('/home/abel/TESIS_ANN_ONLINE/env_py3/MFV3.h5')
 
-Test = pd.read_csv("temp.csv", index_col=False)
+Test = pd.read_csv("/home/abel/TESIS_ANN_ONLINE/env_py3/temp.csv", index_col=False)
 y_predtest = model.predict(Test)
 
 
